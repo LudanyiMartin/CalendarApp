@@ -26,11 +26,33 @@ public class EventAdapter extends ArrayAdapter<Event> {
         }
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
         if(event.getDateStart() == event.getDateEnd()){
-            String eventTitle = event.getName() + ": " + event.getTimeStart().getHour() + ":" + event.getTimeStart().getMinute() + " - " + event.getTimeEnd().getHour() + ":" + event.getTimeEnd().getMinute();
-            eventCellTV.setText(eventTitle);
+            if(event.getTimeStart().getMinute() < 10){
+                String eventTitle = event.getName() + ": " + event.getTimeStart().getHour() + ":0" + event.getTimeStart().getMinute() + " - " + event.getTimeEnd().getHour() + ":" + event.getTimeEnd().getMinute();
+                eventCellTV.setText(eventTitle);
+            }else if(event.getTimeEnd().getMinute() < 10){
+                String eventTitle = event.getName() + ": " + event.getTimeStart().getHour() + ":" + event.getTimeStart().getMinute() + " - " + event.getTimeEnd().getHour() + ":0" + event.getTimeEnd().getMinute();
+                eventCellTV.setText(eventTitle);
+            }else if(event.getTimeStart().getMinute() < 10 && event.getTimeEnd().getMinute() < 10){
+                String eventTitle = event.getName() + ": " + event.getTimeStart().getHour() + ":0" + event.getTimeStart().getMinute() + " - " + event.getTimeEnd().getHour() + ":0" + event.getTimeEnd().getMinute();
+                eventCellTV.setText(eventTitle);
+            }else{
+                String eventTitle = event.getName() + ": " + event.getTimeStart().getHour() + ":" + event.getTimeStart().getMinute() + " - " + event.getTimeEnd().getHour() + ":" + event.getTimeEnd().getMinute();
+                eventCellTV.setText(eventTitle);
+            }
         }else{
-            String eventTitle = event.getName() + ": " + event.getDateStart() + " " + event.getTimeStart().getHour() + ":" + event.getTimeStart().getMinute() + " - " + event.getDateEnd() + " " + event.getTimeEnd().getHour() + ":" + event.getTimeEnd().getMinute() + " (Több napos)";
-            eventCellTV.setText(eventTitle);
+            if(event.getTimeStart().getMinute() < 10) {
+                String eventTitle = event.getName() + ": " + event.getDateStart() + " " + event.getTimeStart().getHour() + ":0" + event.getTimeStart().getMinute() + " - " + event.getDateEnd() + " " + event.getTimeEnd().getHour() + ":" + event.getTimeEnd().getMinute() + " (Lasts several days)";
+                eventCellTV.setText(eventTitle);
+                }else if(event.getTimeEnd().getMinute() < 10){
+                String eventTitle = event.getName() + ": " + event.getDateStart() + " " + event.getTimeStart().getHour() + ":" + event.getTimeStart().getMinute() + " - " + event.getDateEnd() + " " + event.getTimeEnd().getHour() + ":0" + event.getTimeEnd().getMinute() + " (Lasts several days)";
+                eventCellTV.setText(eventTitle);
+                } else if (event.getTimeStart().getMinute() < 10 && event.getTimeEnd().getMinute() < 10) {
+                String eventTitle = event.getName() + ": " + event.getDateStart() + " " + event.getTimeStart().getHour() + ":0" + event.getTimeStart().getMinute() + " - " + event.getDateEnd() + " " + event.getTimeEnd().getHour() + ":0" + event.getTimeEnd().getMinute() + " (Lasts several days)";
+                eventCellTV.setText(eventTitle);
+                } else {
+                String eventTitle = event.getName() + ": " + event.getDateStart() + " " + event.getTimeStart().getHour() + ":" + event.getTimeStart().getMinute() + " - " + event.getDateEnd() + " " + event.getTimeEnd().getHour() + ":" + event.getTimeEnd().getMinute() + " (Lasts several days)";
+                eventCellTV.setText(eventTitle);
+            }
         }
         return convertView;
     }

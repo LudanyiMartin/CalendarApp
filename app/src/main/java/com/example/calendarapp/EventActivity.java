@@ -40,10 +40,10 @@ public class EventActivity extends AppCompatActivity {
         timeEnd = time;
         LocalDate currentDate = CalendarUtils.selectedDate;
         CalendarUtils.selectedDateEnd = currentDate; // Initialize selectedDateEnd
-        eventDateStart.setText("Dátum: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
-        eventTimeStart.setText("Idő: " + time.getHour() + ":" + time.getMinute());
-        eventDateEnd.setText("Dátum: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
-        eventTimeEnd.setText("Idő: " + time.getHour() + ":" + time.getMinute());
+        eventDateStart.setText("Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
+        eventTimeStart.setText("Time: " + time.getHour() + ":" + time.getMinute());
+        eventDateEnd.setText("Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
+        eventTimeEnd.setText("Time: " + time.getHour() + ":" + time.getMinute());
 
     }
 
@@ -58,7 +58,7 @@ public class EventActivity extends AppCompatActivity {
     public void openDatePickerStart(View view) {
         datePickerDialog = new DatePickerDialog(EventActivity.this, (view1, year, month, dayOfMonth) -> {
             LocalDate selectedDate = LocalDate.of(year, month + 1, dayOfMonth);
-            eventDateStart.setText("Dátum: " + "Dátum: " + CalendarUtils.selectedDate.getYear() + "-" + CalendarUtils.selectedDate.getMonthValue() + "-" + CalendarUtils.selectedDate.getDayOfMonth());
+            eventDateStart.setText("Date: " + CalendarUtils.selectedDate.getYear() + "-" + CalendarUtils.selectedDate.getMonthValue() + "-" + CalendarUtils.selectedDate.getDayOfMonth());
             CalendarUtils.selectedDate = selectedDate;
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
@@ -67,7 +67,11 @@ public class EventActivity extends AppCompatActivity {
     public void openTimePickerStart(View view) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(EventActivity.this, (view1, hourOfDay, minute) -> {
             time = LocalTime.of(hourOfDay, minute);
-            eventTimeStart.setText("Idő: " + time.getHour() + ":" + time.getMinute());
+            if(time.getMinute() < 10){
+                eventTimeStart.setText("Time: " + time.getHour() + ":0" + time.getMinute());
+            }else{
+                eventTimeStart.setText("Time: " + time.getHour() + ":" + time.getMinute());
+            }
         }, LocalTime.now().getHour(), LocalTime.now().getMinute(), true);
         timePickerDialog.show();
     }
@@ -75,7 +79,7 @@ public class EventActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(EventActivity.this, (view1, year, month, dayOfMonth) -> {
             LocalDate selectedDate = LocalDate.of(year, month + 1, dayOfMonth);
             CalendarUtils.selectedDateEnd = selectedDate;
-            eventDateEnd.setText("Dátum: " + "Dátum: " + CalendarUtils.selectedDateEnd.getYear() + "-" + CalendarUtils.selectedDateEnd.getMonthValue() + "-" + CalendarUtils.selectedDateEnd.getDayOfMonth());
+            eventDateEnd.setText("Date: " + CalendarUtils.selectedDateEnd.getYear() + "-" + CalendarUtils.selectedDateEnd.getMonthValue() + "-" + CalendarUtils.selectedDateEnd.getDayOfMonth());
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
@@ -83,7 +87,11 @@ public class EventActivity extends AppCompatActivity {
     public void openTimePickerEnd(View view) {
         TimePickerDialog timePickerDialog = new TimePickerDialog(EventActivity.this, (view1, hourOfDay, minute) -> {
             timeEnd = LocalTime.of(hourOfDay, minute);
-            eventTimeEnd.setText("Idő: " + timeEnd.getHour() + ":" + timeEnd.getMinute());
+            if(timeEnd.getMinute() < 10){
+                eventTimeEnd.setText("Time: " + timeEnd.getHour() + ":0" + timeEnd.getMinute());
+            }else{
+                eventTimeEnd.setText("Time: " + timeEnd.getHour() + ":" + timeEnd.getMinute());
+            }
         }, LocalTime.now().getHour(), LocalTime.now().getMinute(), true);
         timePickerDialog.show();
     }
@@ -93,22 +101,22 @@ public class EventActivity extends AppCompatActivity {
         Event event = new Event(eventName, CalendarUtils.selectedDate, time, CalendarUtils.selectedDateEnd, timeEnd);
         if(eventName.isEmpty()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Az esemény neve nem lehet üres!");
+            builder.setMessage("The event's name can't be empty!");
             builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
             builder.show();
         }else if(event.getDateStart().compareTo(event.getDateEnd()) > 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("A kezdő dátum nem lehet nagyobb, mint a befejező dátum!");
+            builder.setMessage("The starting date can't be bigger, then the ending date!");
             builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
             builder.show();
         }else if( event.getDateStart().compareTo(event.getDateEnd()) == 0 && event.getTimeStart().compareTo(event.getTimeEnd()) > 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("A kezdő idő nem lehet nagyobb, mint a befejező idő!");
+            builder.setMessage("The starting time can't be bigger, then the ending time!");
             builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
             builder.show();
         }else if(event.getDateStart().compareTo(event.getDateEnd()) == 0 && event.getTimeStart().compareTo(event.getTimeEnd()) == 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Az esemény kezdő és befejező ideje nem lehet azonos!");
+            builder.setMessage("The event's starting and ending date and time can't be the same!");
             builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
             builder.show();
         } else{

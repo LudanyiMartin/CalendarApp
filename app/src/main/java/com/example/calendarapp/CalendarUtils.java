@@ -15,27 +15,37 @@ public class CalendarUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
         return date.format(formatter);
     }
-    public static String formattedDate(LocalDate date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+
+    public static String monthDayFromDate(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d");
         return date.format(formatter);
     }
-    public static String formattedTime(LocalTime time) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+    public static String formattedShortTime(LocalTime time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         return time.format(formatter);
     }
 
-    public static ArrayList<LocalDate> daysInMonthA(LocalDate selectedDate) {
+    public static ArrayList<LocalDate> daysInMonthA() {
         ArrayList<LocalDate> daysInMonthA = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(selectedDate);
-
         int daysInMonth = yearMonth.lengthOfMonth();
+
+        LocalDate prevMonth = selectedDate.minusMonths(1);
+        LocalDate nextMonth = selectedDate.plusMonths(1);
+
+        YearMonth prevYearMonth = YearMonth.from(prevMonth);
+        int prevDaysInMonth = prevYearMonth.lengthOfMonth();
+
+
         LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
 
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
-        for (int i = 2; i < 42; i++) {
-            if(i <= dayOfWeek || i > daysInMonth + dayOfWeek){
-                daysInMonthA.add(null);
+        for (int i = 2; i < 44; i++) {
+            if(i <= dayOfWeek){
+                daysInMonthA.add(LocalDate.of(prevMonth.getYear(), prevMonth.getMonth(),prevDaysInMonth + i - dayOfWeek));
+            }else if (i > daysInMonth + dayOfWeek){
+                daysInMonthA.add(LocalDate.of(nextMonth.getYear(), nextMonth.getMonth(),i - dayOfWeek - daysInMonth));
             }else{
                 daysInMonthA.add(LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(),i - dayOfWeek));
             }
@@ -43,7 +53,7 @@ public class CalendarUtils {
         return daysInMonthA;
     }
 
-    public static ArrayList<LocalDate> daysInWeekA(LocalDate selectedDate) {
+    public static ArrayList<LocalDate> daysInWeekA() {
         ArrayList<LocalDate> days = new ArrayList<>();
         LocalDate current = mondayForDate(selectedDate);
         LocalDate endDate = current.plusWeeks(1);

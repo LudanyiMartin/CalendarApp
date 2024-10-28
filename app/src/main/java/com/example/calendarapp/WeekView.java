@@ -1,6 +1,5 @@
 package com.example.calendarapp;
 
-import static com.example.calendarapp.CalendarUtils.daysInMonthA;
 import static com.example.calendarapp.CalendarUtils.daysInWeekA;
 import static com.example.calendarapp.CalendarUtils.monthYearFromDate;
 
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,7 +41,7 @@ public class WeekView extends AppCompatActivity implements  CalendarAdapter.OnIt
 
     private void setWeekView() {
         monthYearT.setText(monthYearFromDate(CalendarUtils.selectedDate));
-        ArrayList<LocalDate> days = daysInWeekA(CalendarUtils.selectedDate);
+        ArrayList<LocalDate> days = daysInWeekA();
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
@@ -91,5 +89,9 @@ public class WeekView extends AppCompatActivity implements  CalendarAdapter.OnIt
 
     public void monthlyAction(View view) {
         startActivity(new Intent(this, MainActivity.class));
+    }
+
+    public void dailyAction(View view) {
+        startActivity(new Intent(this, DailyView.class));
     }
 }

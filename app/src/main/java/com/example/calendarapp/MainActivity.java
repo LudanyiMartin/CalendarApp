@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     private void setMonthView() {
         monthYearT.setText(monthYearFromDate(CalendarUtils.selectedDate));
-        ArrayList<LocalDate> daysInMonth = daysInMonthA(CalendarUtils.selectedDate);
+        ArrayList<LocalDate> daysInMonth = daysInMonthA();
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
@@ -80,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
 
     public void weeklyAction(View view) {
         startActivity(new Intent(this, WeekView.class));
+    }
+
+    public void dailyAction(View view) {
+        startActivity(new Intent(this, DailyView.class));
     }
 
     public void newEvent(View view) {

@@ -15,8 +15,9 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Heti"
+            android:layout_marginLeft="15dp"
+            android:layout_gravity="left"
+            android:text="Weekly"
             android:textColor="@color/blue"
             android:background="@null"
             android:textStyle="bold"
@@ -25,12 +26,13 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="65dp"
             android:layout_gravity="center"
-            android:text="Napi"
+            android:text="Daily"
             android:textColor="@color/blue"
             android:background="@null"
             android:textStyle="bold"
-            android:onClick="weeklyAction"
+            android:onClick="dailyAction"
             android:textSize="20sp"/>
         <Button
             android:layout_width="wrap_content"
@@ -40,7 +42,8 @@
             android:background="@null"
             android:textStyle="bold"
             android:onClick="newEvent"
-            android:layout_gravity="center"
+            android:layout_marginLeft="65dp"
+            android:layout_gravity="right"
             android:textSize="20sp"/>
 
     </LinearLayout>

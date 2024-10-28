@@ -17,6 +17,20 @@ public class Event {
 
         return eventsList;
     }
+    public static ArrayList<Event> eventsForDateAndTime(LocalDate date, LocalTime time) {
+        ArrayList<Event> eventsList = new ArrayList<>();
+
+        for (Event event : events) {
+            if ((event.getDateStart().isBefore(date) || event.getDateStart().isEqual(date)) &&
+                    (event.getDateEnd().isAfter(date) || event.getDateEnd().isEqual(date)) &&
+                    (event.getTimeStart().getHour() <= time.getHour() || event.getDateStart().isBefore(date)) &&
+                    (event.getTimeEnd().getHour() >= time.getHour() || event.getDateEnd().isAfter(date))) {
+                eventsList.add(event);
+            }
+        }
+
+        return eventsList;
+    }
     private String name;
     private LocalDate dateStart;
     private LocalTime timeStart;
