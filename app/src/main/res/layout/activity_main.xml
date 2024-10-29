@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
             android:layout_marginLeft="15dp"
             android:layout_gravity="left"
             android:text="Weekly"
-            android:textColor="@color/blue"
+            android:textColor="#431D87"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="weeklyAction"
@@ -26,10 +27,10 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="65dp"
+            android:layout_marginLeft="60dp"
             android:layout_gravity="center"
             android:text="Daily"
-            android:textColor="@color/blue"
+            android:textColor="#431D87"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="dailyAction"
@@ -38,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+"
-            android:textColor="@color/blue"
+            android:textColor="#431D87"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="newEvent"
@@ -59,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/back"
-            android:textColor="@color/blue"
+            android:textColor="#431D87"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="previousMonth"
@@ -73,14 +74,14 @@
             android:text="Oct 2024"
             android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textColor="#000000"/>
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/forward"
-            android:textColor="@color/blue"
+            android:textColor="#431D87"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="nextMonth"

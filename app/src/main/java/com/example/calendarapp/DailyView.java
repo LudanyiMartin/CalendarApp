@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -91,5 +92,9 @@ public class DailyView extends AppCompatActivity {
     }
     public void weeklyAction(View view) {
         startActivity(new Intent(this, WeekView.class));
+    }
+
+    public void openEvent(View view) {
+
     }
 }

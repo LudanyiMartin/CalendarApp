@@ -1,6 +1,8 @@
 package com.example.calendarapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class HourAdapter extends ArrayAdapter<HourEvent> {
 
         return convertView;
     }
+
 
     private void setHour(View convertView, LocalTime time) {
         TextView timeTV = convertView.findViewById(R.id.hourCellTV);

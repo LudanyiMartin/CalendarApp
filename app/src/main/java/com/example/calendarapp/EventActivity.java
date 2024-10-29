@@ -40,10 +40,10 @@ public class EventActivity extends AppCompatActivity {
         timeEnd = time;
         LocalDate currentDate = CalendarUtils.selectedDate;
         CalendarUtils.selectedDateEnd = currentDate; // Initialize selectedDateEnd
-        eventDateStart.setText("Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
-        eventTimeStart.setText("Time: " + time.getHour() + ":" + time.getMinute());
-        eventDateEnd.setText("Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
-        eventTimeEnd.setText("Time: " + time.getHour() + ":" + time.getMinute());
+        eventDateStart.setText("Starting Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
+        eventTimeStart.setText("Starting Time: " + time.getHour() + ":" + time.getMinute());
+        eventDateEnd.setText("Ending Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
+        eventTimeEnd.setText("Ending Time: " + time.getHour() + ":" + time.getMinute());
 
     }
 
@@ -58,7 +58,7 @@ public class EventActivity extends AppCompatActivity {
     public void openDatePickerStart(View view) {
         datePickerDialog = new DatePickerDialog(EventActivity.this, (view1, year, month, dayOfMonth) -> {
             LocalDate selectedDate = LocalDate.of(year, month + 1, dayOfMonth);
-            eventDateStart.setText("Date: " + CalendarUtils.selectedDate.getYear() + "-" + CalendarUtils.selectedDate.getMonthValue() + "-" + CalendarUtils.selectedDate.getDayOfMonth());
+            eventDateStart.setText("Starting Date: " + CalendarUtils.selectedDate.getYear() + "-" + CalendarUtils.selectedDate.getMonthValue() + "-" + CalendarUtils.selectedDate.getDayOfMonth());
             CalendarUtils.selectedDate = selectedDate;
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
@@ -68,9 +68,9 @@ public class EventActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(EventActivity.this, (view1, hourOfDay, minute) -> {
             time = LocalTime.of(hourOfDay, minute);
             if(time.getMinute() < 10){
-                eventTimeStart.setText("Time: " + time.getHour() + ":0" + time.getMinute());
+                eventTimeStart.setText("Starting Time: " + time.getHour() + ":0" + time.getMinute());
             }else{
-                eventTimeStart.setText("Time: " + time.getHour() + ":" + time.getMinute());
+                eventTimeStart.setText("Starting Time: " + time.getHour() + ":" + time.getMinute());
             }
         }, LocalTime.now().getHour(), LocalTime.now().getMinute(), true);
         timePickerDialog.show();
@@ -79,7 +79,7 @@ public class EventActivity extends AppCompatActivity {
         datePickerDialog = new DatePickerDialog(EventActivity.this, (view1, year, month, dayOfMonth) -> {
             LocalDate selectedDate = LocalDate.of(year, month + 1, dayOfMonth);
             CalendarUtils.selectedDateEnd = selectedDate;
-            eventDateEnd.setText("Date: " + CalendarUtils.selectedDateEnd.getYear() + "-" + CalendarUtils.selectedDateEnd.getMonthValue() + "-" + CalendarUtils.selectedDateEnd.getDayOfMonth());
+            eventDateEnd.setText("Ending Date: " + CalendarUtils.selectedDateEnd.getYear() + "-" + CalendarUtils.selectedDateEnd.getMonthValue() + "-" + CalendarUtils.selectedDateEnd.getDayOfMonth());
         }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
@@ -88,9 +88,9 @@ public class EventActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(EventActivity.this, (view1, hourOfDay, minute) -> {
             timeEnd = LocalTime.of(hourOfDay, minute);
             if(timeEnd.getMinute() < 10){
-                eventTimeEnd.setText("Time: " + timeEnd.getHour() + ":0" + timeEnd.getMinute());
+                eventTimeEnd.setText("Ending Time: " + timeEnd.getHour() + ":0" + timeEnd.getMinute());
             }else{
-                eventTimeEnd.setText("Time: " + timeEnd.getHour() + ":" + timeEnd.getMinute());
+                eventTimeEnd.setText("Ending Time: " + timeEnd.getHour() + ":" + timeEnd.getMinute());
             }
         }, LocalTime.now().getHour(), LocalTime.now().getMinute(), true);
         timePickerDialog.show();

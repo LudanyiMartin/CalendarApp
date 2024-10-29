@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Save"
-        android:textColor="@color/blue"
+        android:textColor="#431D87"
         android:background="@null"
         android:textStyle="bold"
         android:onClick="saveEvent"
