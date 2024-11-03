@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class EventActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private LocalTime time;
     private LocalTime timeEnd;
+    private ToggleButton allDayToggle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +41,32 @@ public class EventActivity extends AppCompatActivity {
         time = LocalTime.now();
         timeEnd = time;
         LocalDate currentDate = CalendarUtils.selectedDate;
-        CalendarUtils.selectedDateEnd = currentDate; // Initialize selectedDateEnd
-        eventDateStart.setText("Starting Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
-        eventTimeStart.setText("Starting Time: " + time.getHour() + ":" + time.getMinute());
-        eventDateEnd.setText("Ending Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
-        eventTimeEnd.setText("Ending Time: " + time.getHour() + ":" + time.getMinute());
+        CalendarUtils.selectedDateEnd = currentDate;
+        if(currentDate.getDayOfMonth() < 10){
+            eventDateStart.setText("Starting Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-0" + currentDate.getDayOfMonth());
+            eventTimeStart.setText("Starting Time: " + time.getHour() + ":" + time.getMinute());
+            eventDateEnd.setText("Ending Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-0" + currentDate.getDayOfMonth());
+            eventTimeEnd.setText("Ending Time: " + time.getHour() + ":" + time.getMinute());
+        }else{
+            eventDateStart.setText("Starting Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
+            eventTimeStart.setText("Starting Time: " + time.getHour() + ":" + time.getMinute());
+            eventDateEnd.setText("Ending Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
+            eventTimeEnd.setText("Ending Time: " + time.getHour() + ":" + time.getMinute());
+        }
 
+        allDayToggle.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                eventDateStart.setText("Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
+                eventTimeStart.setVisibility(View.GONE);
+                eventTimeEnd.setVisibility(View.GONE);
+                eventDateEnd.setVisibility(View.GONE);
+            } else {
+                eventDateStart.setText("Starting Date: " + currentDate.getYear() + "-" + currentDate.getMonthValue() + "-" + currentDate.getDayOfMonth());
+                eventTimeStart.setVisibility(View.VISIBLE);
+                eventTimeEnd.setVisibility(View.VISIBLE);
+                eventDateEnd.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     private void initwidgets() {
@@ -53,6 +75,7 @@ public class EventActivity extends AppCompatActivity {
         eventTimeStart = findViewById(R.id.eventTimeStart);
         eventDateEnd = findViewById(R.id.eventDateEnd);
         eventTimeEnd = findViewById(R.id.eventTimeEnd);
+        allDayToggle = findViewById(R.id.allDayToggle);
     }
 
     public void openDatePickerStart(View view) {
@@ -99,27 +122,33 @@ public class EventActivity extends AppCompatActivity {
     public void saveEvent(View view) {
         String eventName = eventNameET.getText().toString();
         Event event = new Event(eventName, CalendarUtils.selectedDate, time, CalendarUtils.selectedDateEnd, timeEnd);
+        boolean isAllDay = allDayToggle.isChecked();
         if(eventName.isEmpty()){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("The event's name can't be empty!");
             builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
             builder.show();
-        }else if(event.getDateStart().compareTo(event.getDateEnd()) > 0){
+        }else if(!isAllDay && event.getDateStart().compareTo(event.getDateEnd()) > 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("The starting date can't be bigger, then the ending date!");
             builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
             builder.show();
-        }else if( event.getDateStart().compareTo(event.getDateEnd()) == 0 && event.getTimeStart().compareTo(event.getTimeEnd()) > 0){
+        }else if(!isAllDay && event.getDateStart().compareTo(event.getDateEnd()) == 0 && event.getTimeStart().compareTo(event.getTimeEnd()) > 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("The starting time can't be bigger, then the ending time!");
             builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
             builder.show();
-        }else if(event.getDateStart().compareTo(event.getDateEnd()) == 0 && event.getTimeStart().compareTo(event.getTimeEnd()) == 0){
+        }else if(!isAllDay && event.getDateStart().compareTo(event.getDateEnd()) == 0 && event.getTimeStart().compareTo(event.getTimeEnd()) == 0){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("The event's starting and ending date and time can't be the same!");
             builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
             builder.show();
-        } else{
+        } else if (isAllDay) {
+            LocalTime startTime = LocalTime.of(0, 0);
+            LocalTime endTime = LocalTime.of(23, 59);
+            Event.events.add(new Event(eventName, CalendarUtils.selectedDate, startTime, CalendarUtils.selectedDate, endTime));
+            finish();
+        } else {
             Event.events.add(event);
             finish();
         }
